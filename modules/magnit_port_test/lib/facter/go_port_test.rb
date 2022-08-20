@@ -14,3 +14,4 @@ Facter.add(:interfaces_hash) do
 end
 #test
 #github tets
+#Test 2
