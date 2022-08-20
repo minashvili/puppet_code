@@ -1,3 +1,4 @@
+#Скрипт на Ruby пуляет скрипт на Golang чтобы получить список доступных хостов для DSL Puppet модуля установка Zabbix
 Facter.add(:zabbix_true_server) do
   setcode do
     zabbix_true_server = {}
@@ -15,22 +16,10 @@ Facter.add(:zabbix_true_server) do
 end
 
 
+#Читать
+#https://puppet.com/docs/puppet/6/fact_overview.html#writing_facts_aggregate_resolutions-build-flat-fact
+#https://puppet.com/docs/puppet/6/custom_facts.html#aggregate_resolutions
 
-
-# Facter.add(:interfaces_hash) do
-#   setcode do
-#     interfaces_hash = {}
-#
-#     Facter.value(:interfaces_array).each do |interface|
-#       ipaddress = Facter.value("ipaddress_#{interface}")
-#       if ipaddress
-#         interfaces_hash[interface] = ipaddress
-#       end
-#     end
-#
-#     interfaces_hash
-#   end
-# end
 
 
 
