@@ -1,0 +1,26 @@
+# THIS FILE IS MANAGED BY PUPPET
+[Unit]
+Description=Zabbix Server
+Documentation=man:zabbix_server
+<% if @database_type == "mysql" and @manage_database %>
+After=mysqld.service
+<% elsif @database_type == "postgresql" and @manage_database %>
+After=postgresql.service
+<% end -%>
+# Wait for network-online and not just network:
+# - Required in case of a remote database.
+# - Avoids missing data at boot on all network-based checks.
+After=network-online.target
+
+[Service]
+ExecStart=/usr/sbin/zabbix_server <%= @additional_service_params %> -c <%= @server_configfile_path %>
+ExecReload=/usr/sbin/zabbix_server -R config_cache_reload
+<% if @pidfile %>PIDFile=<%= @pidfile %><% end %>
+Restart=on-abnormal
+PrivateTmp=yes
+ProtectSystem=full
+ProtectHome=yes
+<% if @zabbix_user %>User=<%= @zabbix_user %><% end %>
+
+[Install]
+WantedBy=multi-user.target
