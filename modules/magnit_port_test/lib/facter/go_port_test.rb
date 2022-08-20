@@ -1,34 +1,26 @@
-Facter.add(:interfaces_hash) do
+Facter.add(:zabbix_true_server) do
   setcode do
-    interfaces_hash = {}
+#     interfaces_hash = {}
+    zabbix_true_server = {}
+    zabbix_proxy_list = ['178.248.238.722', 'puppet.com', '178.248.238.722']
 
-    Facter.value(:interfaces_array).each do |interface|
-      ipaddress = Facter.value("ipaddress_#{interface}")
-      if ipaddress
-        interfaces_hash[interface] = ipaddress
+    zabbix_proxy_list.each do | x_port |
+      setcode do
+        fact_bule = Facter::Core::Execution.execute("/home/gia/port_cheack_tcp #{x_port} 443") # только это становится значеним фактора
+        zabbix_true_server[x_port] = fact_bule
       end
     end
-
-    interfaces_hash
+#     Facter.value(:interfaces_array).each do |interface|
+#       ipaddress = Facter.value("ipaddress_#{interface}")
+#       if ipaddress
+#         interfaces_hash[interface] = ipaddress
+#       end
+#     end
+    zabbix_true_server
   end
 end
 
 
-
-
-
-
-# Facter.add(:interfaces_array) do
-#   setcode do
-#    interfaces = Facter::Core::Execution.execute("/home/gia/port_cheack_tcp magnit.ru 443")
-#    # the 'interfaces' fact returns a single comma-delimited string, such as "lo0,eth0,eth1"
-#    # this splits the value into an array of interface names
-#    #interfaces.split(',')
-#   end
-# end
-#
-# #test puppet
-#
 
 
 
