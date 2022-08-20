@@ -12,4 +12,3 @@ Facter.add(:interfaces_hash) do
     interfaces_hash
   end
 end
-#testfgdfgd11111111
