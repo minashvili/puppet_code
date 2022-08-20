@@ -27,5 +27,5 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: sudo /opt/puppetlabs/puppet/bin/r10k deploy environment -p
+        run: sudo /opt/puppetlabs/puppet/bin/r10k deploy environment -p && sudo /opt/puppetlabs/bin/puppet agent -t
 
