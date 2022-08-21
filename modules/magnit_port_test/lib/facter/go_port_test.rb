@@ -13,7 +13,7 @@ Facter.add(:zabbix_true_server) do
         end
     end
 
-    #zabbix_true_server
+    zabbix_true_server
   end
 end
 
