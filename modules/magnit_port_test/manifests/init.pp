@@ -11,7 +11,7 @@ class magnit_port_test {
         source  => 'puppet:///modules/magnit_port_test/port_cheack_tcp',
         mode  => '0755',
     }
-$x1 = $facts['zabbix_true_server']['forge.puppet.com']
+$x1 = $facts['zabbix_true_server'] #['forge.puppet.com']
 
     class { 'zabbix::agent':
         server => $x1,
