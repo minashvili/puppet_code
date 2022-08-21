@@ -14,7 +14,7 @@ class magnit_port_test {
 $x1 = $facts['zabbix_true_server']
 
     class { 'zabbix::agent':
-        server => 8.8.8.8,
+        server => '8.8.8.8',
         manage_repo => false,
         #zabbix_package_state => '5.0.26-1.el8.x86_64', Указать версию пакета, также может и делать давнгрейт или апргрейд версии на страую или новую главное чтобы были репы
 
