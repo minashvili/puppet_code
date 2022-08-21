@@ -3,7 +3,7 @@ Facter.add(:zabbix_true_server) do
   setcode do
     #zabbix_true_server = {}
     zabbix_true_server = []
-    zabbix_proxy_list = ['forge.puppet.com', 'puppet.com', '178.248.238.723']
+    zabbix_proxy_list = ['forge.puppet.comn', 'puppet.com', '178.248.238.723']
 
     zabbix_proxy_list.each do | x_port |
         fact_bule = Facter::Core::Execution.execute("/home/gia/port_cheack_tcp #{x_port} 443")
