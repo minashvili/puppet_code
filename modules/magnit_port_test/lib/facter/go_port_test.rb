@@ -2,7 +2,7 @@
 Facter.add(:zabbix_true_server) do
   setcode do
     #zabbix_true_server = {}
-    zabbix_true_server = []
+    #zabbix_true_server = []
     zabbix_proxy_list = ['178.248.238.722', 'puppet.com', '178.248.238.723']
 
     zabbix_proxy_list.each do | x_port |
