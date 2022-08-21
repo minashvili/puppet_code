@@ -8,12 +8,12 @@ Facter.add(:zabbix_true_server) do
     zabbix_proxy_list.each do | x_port |
         fact_bule = Facter::Core::Execution.execute("/home/gia/port_cheack_tcp #{x_port} 443")
         if fact_bule == 'true'
-          zabbix_true_server[x_port] = [x_port, fact_bule]
+          zabbix_true_server[x_port] = fact_bule
           #zabbix_true_server.append(x_port)
         end
     end
 
-    zabbix_true_server
+    #zabbix_true_server
   end
 end
 
