@@ -18,7 +18,7 @@ Facter.add(:zabbix_true_server) do
 end
 
 
-#Читать
+#Читать3
 #https://puppet.com/docs/puppet/6/fact_overview.html#writing_facts_aggregate_resolutions-build-flat-fact
 #https://puppet.com/docs/puppet/6/custom_facts.html#aggregate_resolutions
 
