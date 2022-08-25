@@ -20,7 +20,7 @@ if File.exist?(golang_super_fact)
     end
   end
 end
-
+#44
 ##Читать
 #https://puppet.com/docs/puppet/6/fact_overview.html#writing_facts_aggregate_resolutions-build-flat-fact
 #https://puppet.com/docs/puppet/6/custom_facts.html#aggregate_resolutions
