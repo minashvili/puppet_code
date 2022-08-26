@@ -3,7 +3,7 @@ define pip::installation (
   $python_version = $title,
 ) {
 
-  $get_pip_url = '' #'https://raw.githubusercontent.com/pypa/pip/1.5.6/contrib/get-pip.py'
+  $get_pip_url = 'https://raw.githubusercontent.com/pypa/pip/1.5.6/contrib/get-pip.py'
 
   Exec {
     path    => ['/usr/bin', '/usr/local/bin', '/bin/'],
