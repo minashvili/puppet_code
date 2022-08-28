@@ -7,7 +7,7 @@ class magnit_pip_install {
     #gunicorn   => 'present',
   }
 
-
+#
    # 1  yum install python3 with pip3
    # 2  pip3 install --upgrade pip
    # 3  pip3 install ansible
