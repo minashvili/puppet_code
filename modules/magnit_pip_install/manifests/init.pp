@@ -15,7 +15,7 @@ class magnit_pip_install {
    #33  pip3 install ansible
 
   #Установить python3 установить пип3
-  #
+  #№
 
 
 
