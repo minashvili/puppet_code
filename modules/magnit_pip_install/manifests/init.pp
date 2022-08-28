@@ -2,7 +2,7 @@ class magnit_pip_install {
   include python
 
   class { 'python':
-    #version    => 'system',
+    version    => 'system',
     pip        => 'present',
     #dev        => 'present',
     #gunicorn   => 'present',
