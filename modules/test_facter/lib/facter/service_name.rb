@@ -1,4 +1,3 @@
-c
 # service_name.rb
 
 Facter.add('service_name') do
