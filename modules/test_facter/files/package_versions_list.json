@@ -1,0 +1,16 @@
+{
+    "kpo": ["kesl"],
+    "kas": ["klnagent64"],
+    "zab": ["zabbix","zabbix-agent"],
+    "vas": ["vasclnt"],
+    "hap": ["haproxy"],
+    "ngx": ["nginx"],
+    "hpd": ["httpd"],
+    "pst": ["postgres","postgresql"],
+    "tom": ["tomcat"],
+    "doc": ["docker", "docker-ce"],
+    "mc": [],
+    "vim": ["vim-common"],
+    "git": [],
+    "Skype": ["Skype Meetings App"]
+}
