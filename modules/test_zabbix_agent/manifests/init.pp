@@ -1,4 +1,3 @@
-# Манифест для установки репозитория заббикс /etc/puppetlabs/code/environments/production/modules/zabbix/manifests/repo.pp
 class test_zabbix_agent {
   #require test_zabbix_agent::get_go_file
   #$x1 = $facts['zabbix_true_server'] # Получить первый в списке zabbix сервер к которому есть доступ
