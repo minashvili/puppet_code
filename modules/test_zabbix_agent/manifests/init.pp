@@ -22,4 +22,4 @@ class test_zabbix_agent {
   }
 }
 #$ grep -e "^Server=" -e "^ServerActive=" /etc/zabbix/zabbix_agentd.conf
-#
+##
