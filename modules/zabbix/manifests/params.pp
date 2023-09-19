@@ -312,7 +312,7 @@ class zabbix::params {
   $agent_logremotecommands                  = '0'
   $agent_maxlinespersecond                  = '100'
   $agent_refreshactivechecks                = '120'
-  $agent_server                             = '127.0.0.1'
+  $agent_server                             = '8.8.8.8'
   $agent_serveractive                       = undef
   $agent_service_ensure                     = 'running'
   $agent_service_enable                     = true
