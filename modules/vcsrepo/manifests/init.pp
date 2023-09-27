@@ -6,7 +6,7 @@ class vcsrepo (
   $revision_hash                           = $vcsrepo::params::p_revision,
 ) inherits vcsrepo::params {
 
-  if $revision_hash == undef {
+  if $revision_hash == undef or $revision_hash == '' {
     vcsrepo { $local_path:
       ensure   => 'present',
       provider => 'git',
