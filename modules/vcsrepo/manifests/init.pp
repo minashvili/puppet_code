@@ -1,9 +1,9 @@
 
 class vcsrepo (
-  $local_path                              = '/opt/openxpki',
-  $csv_path_repo                           = 'https://github.com/openxpki/openxpki-docker.git',
-  $branch_vcs                              = 'master',
-) {
+  $local_path                              = $p_local_path,
+  $csv_path_repo                           = $p_csv_path_repo,
+  $branch_vcs                              = $p_branch_vcs,
+) inherits vcsrepo::params {
 
 vcsrepo { $local_path:
   ensure   => 'present',
@@ -12,7 +12,6 @@ vcsrepo { $local_path:
   branch   => $branch_vcs,
   depth    => 1,
 }
-
 
 }
 
