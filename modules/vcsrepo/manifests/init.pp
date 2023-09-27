@@ -1,6 +1,6 @@
 
 class vcsrepo (
-  $local_path                              = '/opt/test',
+  $local_path                              = '/opt/openxpki',
   $csv_path_repo                           = 'https://github.com/openxpki/openxpki-docker.git',
   $branch_vcs                              = 'master',
 ) {
