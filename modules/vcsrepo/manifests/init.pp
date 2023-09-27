@@ -5,7 +5,6 @@ class vcsrepo (
   $branch_vcs                              = 'master',
 ) {
 
-
 vcsrepo { $local_path:
   ensure   => 'present',
   provider => 'git',
