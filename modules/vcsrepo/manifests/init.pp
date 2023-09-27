@@ -6,16 +6,24 @@ class vcsrepo (
   Optional $revision_hash                  = $p_revision,
 ) inherits vcsrepo::params {
 
-vcsrepo { $local_path:
-  ensure   => 'present',
-  provider => 'git',
-  source   => $csv_path_repo,
-  branch   => $branch_csv,
-  revision => $revision_hash,
-  # depth    => 1,
-}
-
-
+  if $revision_hash == undef {
+    vcsrepo { $local_path:
+      ensure   => 'present',
+      provider => 'git',
+      source   => $csv_path_repo,
+      branch   => $branch_csv,
+      # depth    => 1,
+    }
+  } else {
+    vcsrepo { $local_path:
+      ensure   => 'present',
+      provider => 'git',
+      source   => $csv_path_repo,
+      branch   => $branch_csv,
+      revision => $revision_hash,
+      # depth    => 1,
+    }
+  }
 }
 
 
