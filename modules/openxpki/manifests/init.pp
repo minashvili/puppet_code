@@ -3,12 +3,6 @@
 # A description of what this class does
 #
 # @example
-#   include openxpki::test
-class openxpki::test {
-
+#   include openxpki
+class openxpki {
 }
-
-
-
-
-
