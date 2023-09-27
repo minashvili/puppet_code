@@ -5,7 +5,6 @@ class vcsrepo (
   $branch_vcs                              = 'master',
 ) {
 
-  Class['vcsrepo::manage::git'] -> Vcsrepo[$local_path]
 
 vcsrepo { $local_path:
   ensure   => 'present',
