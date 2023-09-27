@@ -1,6 +1,6 @@
 
 class vcsrepo (
-  $csv_path_repo                           = vcsrepo::params::csv_path_repo,
+  $csv_path_repo                           = vcsrepo::params::p_csv_path_repo,
   $local_path_opt                          = vcsrepo::params::local_path_opt,
   $remote_branch_vcs                       = vcsrepo::params::branch_csv,
 ) inherits vcsrepo::params {
@@ -17,6 +17,8 @@ vcsrepo { $local_path_opt:
 
 
 }
+
+
 
 
 
