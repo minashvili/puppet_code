@@ -1,9 +1,9 @@
 
 class vcsrepo (
-  $local_path                              = $p_local_path,
-  $csv_path_repo                           = $p_csv_path_repo,
-  $branch_csv                              = $p_branch_csv,
-  $revision_hash                           = vcsrepo::params::p_revision,
+  String              $local_path                              = $vcsrepo::params::p_local_path,
+  String              $csv_path_repo                           = $vcsrepo::params::p_csv_path_repo,
+  String              $branch_csv                              = $vcsrepo::params::p_branch_csv,
+  Optional[String]    $revision_hash                           = $vcsrepo::params::p_revision,
 ) inherits vcsrepo::params {
 
   if $revision_hash == undef {
