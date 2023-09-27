@@ -12,7 +12,6 @@ class vcsrepo (
       provider => 'git',
       source   => $csv_path_repo,
       branch   => $branch_csv,
-      # depth    => 1,
     }
   } else {
     vcsrepo { $local_path:
@@ -21,7 +20,6 @@ class vcsrepo (
       source   => $csv_path_repo,
       branch   => $branch_csv,
       revision => $revision_hash,
-      # depth    => 1,
     }
   }
 }
