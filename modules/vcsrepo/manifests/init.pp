@@ -1,8 +1,8 @@
 
 class vcsrepo (
-  $csv_path_repo                           = vcsrepo::params::p_csv_path_repo,
-  $local_path                              = vcsrepo::params::p_local_path_repo,
-  $branch_vcs                              = vcsrepo::params::p_branch_csv,
+  $csv_path_repo                           = 'git://github.com/openxpki/openxpki-docker.git',
+  $local_path                              = '/home/george',
+  $branch_vcs                              = 'master',
 ) inherits vcsrepo::params {
 
   Class['vcsrepo::manage::git'] -> Vcsrepo[$local_path]
