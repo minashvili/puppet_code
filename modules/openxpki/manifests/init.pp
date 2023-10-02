@@ -1,8 +1,14 @@
-# @summary A short summary of the purpose of this class
-#
-# A description of what this class does
-#
-# @example
-#   include openxpki
-class openxpki {
+
+class openxpki (
+  $local_path                              = '/opt/my_custom_filename.rb'
+){
+
+  openxpki { 'example_config':
+    ensure => present,
+    path   => $local_path, # Указание пользовательского имени файла
+  }
+
 }
+
+
+
