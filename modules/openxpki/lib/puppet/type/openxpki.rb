@@ -14,6 +14,21 @@ Puppet::Type.newtype(:openxpki) do
     desc 'The path to the OpenXPKI configuration file.'
   end
 
+  newparam(:exists) do
+    desc 'Check if the OpenXPKI configuration exists.'
+    newvalues(true, false)
+    defaultto :true
+  end
+
+  newvalue(:present) do
+    provider.create
+  end
+
+  newvalue(:absent) do
+    provider.destroy
+  end
+
+
 end
 
 
