@@ -5,7 +5,7 @@ Puppet::Type.newtype(:openxpki) do
   desc 'Manage OpenXPKI configuration.'
 
   ensurable
-
+  # isnamevar: Это указание, что параметр :path также используется в качестве имени ресурса.
   newparam(:name, namevar: true) do
     desc 'The name of the OpenXPKI configuration.'
   end
