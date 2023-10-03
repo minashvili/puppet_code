@@ -11,7 +11,7 @@ openxpki { 'foo':
   ensure => 'present',
 }
 
-This type provides Puppet with the capabilities to manage ...
+This type provides Puppet. with the capabilities to manage ...
 
 If your type uses autorequires, please document as shown below, else delete
 these lines.
