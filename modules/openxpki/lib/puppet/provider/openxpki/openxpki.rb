@@ -25,7 +25,7 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
 
     begin
       # Создаем папку и все необходимые директории в пути
-      FileUtils.mkdir_p(path)
+      # FileUtils.mkdir_p(path)
       File.new(path, "w")
 
       context.notice("Created directory '#{path}'")
