@@ -8,18 +8,30 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
     context.debug('Returning pre-canned example data')
     [
       {
-        name: 'foo',
-        ensure: 'present',
-      },
-      {
-        name: 'bar',
+        name: 'openxpki',
         ensure: 'present',
       },
     ]
   end
 
   def create(context, name, should)
-    context.notice("Creating '#{name}' with #{should.inspect}")
+    # context.notice("Creating '#{name}' with #{should.inspect}")
+    path = should[:path]
+    # Проверяем, что путь указан
+    if path.nil?
+      context.err('Path is not specified.')
+      return
+    end
+
+    begin
+      # Создаем папку и все необходимые директории в пути
+      FileUtils.mkdir_p(path)
+
+      context.notice("Created directory '#{path}'")
+    rescue StandardError => e
+      context.err("Error creating directory '#{path}': #{e.message}")
+    end
+
   end
 
   def update(context, name, should)
@@ -29,4 +41,10 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
   def delete(context, name)
     context.notice("Deleting '#{name}'")
   end
+
+
+
 end
+
+
+

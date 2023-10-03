@@ -15,11 +15,7 @@ RSpec.describe Puppet::Provider::Openxpki::Openxpki do
       expect(context).to receive(:debug).with('Returning pre-canned example data')
       expect(provider.get(context)).to eq [
         {
-          name: 'foo',
-          ensure: 'present',
-        },
-        {
-          name: 'bar',
+          name: 'openxpki',
           ensure: 'present',
         },
       ]

@@ -7,7 +7,7 @@ Puppet::ResourceApi.register_type(
   docs: <<-EOS,
 @summary a openxpki type
 @example
-openxpki { 'foo':
+openxpki { 'openxpki':
   ensure => 'present',
 }
 
