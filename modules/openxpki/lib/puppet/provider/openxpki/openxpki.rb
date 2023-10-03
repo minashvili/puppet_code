@@ -24,7 +24,7 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
     end
 
     if File.exist?(path)
-      context.notice("File '#{path}' already exists, skipping creation.")
+      #context.notice("File '#{path}' already exists, skipping creation.")
     else
 
       begin
