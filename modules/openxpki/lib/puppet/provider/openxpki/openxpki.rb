@@ -23,17 +23,22 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
       return
     end
 
-    begin
-      # Создаем папку и все необходимые директории в пути
-      # FileUtils.mkdir_p(path)
-      File.new(path, "w")
+    if File.exist?(path)
+      context.notice("File '#{path}' already exists, skipping creation.")
+    else
 
-      context.notice("Created directory '#{path}'")
-    rescue StandardError => e
-      context.err("Error creating directory '#{path}': #{e.message}")
+      begin
+        File.new(path, "w")
+        context.notice("Created file '#{path}'")
+
+      rescue StandardError => e
+        context.err("Error creating file '#{path}': #{e.message}")
+      end
+
     end
-
   end
+
+
 
   def update(context, name, should)
     context.notice("Updating '#{name}' with #{should.inspect}")
