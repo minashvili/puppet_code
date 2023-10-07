@@ -39,7 +39,6 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
   end
 
 
-
   def update(context, name, should)
     context.notice("Updating '#{name}' with #{should.inspect}")
   end
