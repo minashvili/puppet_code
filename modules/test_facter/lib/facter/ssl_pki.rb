@@ -28,7 +28,7 @@ Facter.add('ssl_pki') do
       not_after = cert.not_after
 
       # Добавляем информацию о сертификате в ssl_pki
-      ssl_pki[common_name] = [alt_names, not_before, not_after]
+      ssl_pki[common_name] = [{'all_alt_names' => alt_names}, not_before, not_after]
     end
 
     ssl_pki
