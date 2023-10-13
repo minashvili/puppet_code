@@ -15,10 +15,10 @@ class openxpki (
     message  => "На агенте вермя  ${$date_from_puppet_agent} тип данных ${type($date_from_puppet_agent)}"
   }
 
-  $date_result = ($date_from_puppet_agent - $date_from_puppet_server).strftime('%D').to_i
+  $date_result = ($date_from_puppet_agent - $date_from_puppet_server).strftime('%D')
 
   notify { 'resource title3':
-    message  => "Разница в днях ${$date_result} тип данных ${type($date_result)}"
+    message  => "Разница в днях ${$date_result.to_i} тип данных ${type($date_result.to_i)}"
   }
   # if $facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1] == '2023-11-10T11:10:52Z' {
   #
