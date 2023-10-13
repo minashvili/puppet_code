@@ -4,14 +4,14 @@ class openxpki (
 ){
 
 
-  function openxpki::string_to_time($date_str) {
+  function custom::string_to_time($date_str) {
     $date_obj = Timestamp.new($date_str)
     return $date_obj
   }
 
 
   $date_from_puppet_server = Timestamp.new()
-  $date_from_puppet_agent = openxpki::string_to_time($facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1])
+  $date_from_puppet_agent = custom::string_to_time($facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1])
 
 
   notify { 'resource title1':
