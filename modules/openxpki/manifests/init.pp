@@ -15,7 +15,7 @@ class openxpki (
     message  => "На агенте вермя  ${$date_from_puppet_agent} тип данных ${type($date_from_puppet_agent)}"
   }
 
-  $date_result = $date_from_puppet_agent - $date_from_puppet_server
+  $date_result = Timestamp.new($date_from_puppet_agent) - $date_from_puppet_server
 
   notify { 'resource title3':
     message  => "Разница в днях ${$date_result} тип данных ${type($date_result)}"
