@@ -10,12 +10,10 @@ class openxpki (
     }
 
   } else {
-    notify { 'resource title':
+    notify { 'resource title2':
       message  => "Не работает ${['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1]}"
     }
   }
-
-
 
   # openxpki { 'test':
   #   ensure => present,
