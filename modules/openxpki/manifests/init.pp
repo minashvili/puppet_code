@@ -11,7 +11,7 @@ class openxpki (
     message  =>
       "На сервере время ${$date_from_puppet_server}
        Тип данных ${$date_from_puppet_agent}
-       Разница в днях ${$date_result}"
+       Разница в днях ${$date_result} ${$force_get_ssl}"
   }
   if $date_result_ssl < 20 or $force_param == true {
     notify { 'resource title2':
