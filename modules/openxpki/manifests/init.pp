@@ -4,7 +4,7 @@ class openxpki (
 ){
 
   notify { 'resource title':
-    message  => "У этой строки тип ${$facts['ssl_pki']['test2.corp.magneto.com']['ssl_date']}"
+    message  => "У этой строки тип ${$facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1]}"
   }
 
   if $facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1] == '2023-11-11T13:12:38Z' {
