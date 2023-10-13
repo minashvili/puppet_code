@@ -4,7 +4,7 @@ class openxpki (
 ){
 
   $date_from_puppet_server = Timestamp.new()
-  $date_from_puppet_agent = str2time($facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1], '%Y-%m-%dT%H:%M:%SZ')
+  $date_from_puppet_agent = parse($facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1])
 
 
   notify { 'resource title1':
