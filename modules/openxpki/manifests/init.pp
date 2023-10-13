@@ -5,14 +5,15 @@ class openxpki (
   Timestamp  $date_from_puppet_agent                    = $openxpki::params::date_agent,
   Integer    $date_result_ssl                           = $openxpki::params::date_result,
   Optional[Boolean] $force_get_ssl                      = $openxpki::params::force_param,
+  Optional[String] $manual_commone_name                 = $openxpki::params::commone_name,
+  Optional[String] $manual_alt_names                    = $openxpki::params::alt_names,
 ) inherits openxpki::params {
 
   notify { 'debbug':
     message  =>
-      "На сервере время ${$date_from_puppet_server}
-       Тип данных ${$date_from_puppet_agent}
-       Разница в днях ${$date_result} ${$force_get_ssl} ${type($force_get_ssl)}"
+      "Commone name ${$manual_commone_name}, Alt names ${$manual_alt_names}"
   }
+
   if $force_get_ssl == true or $date_result_ssl < 20 {
     notify { 'resource title2':
       message  => "Работает! ${$date_result_ssl}"
@@ -30,7 +31,7 @@ class openxpki (
   # }
 
 
-
+#
 
 
 
