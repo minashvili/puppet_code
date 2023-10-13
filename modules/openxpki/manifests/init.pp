@@ -18,10 +18,6 @@ class openxpki (
       notify { 'resource title2':
         message  => "Работает! ${$date_result_ssl} Запускаем бекап файлов и запускаем Перевыписки выписки сертификатов"
       }
-    } else {
-      notify { 'resource title3':
-        message => "Не Работает! ${$date_result_ssl} Ничего не запускаем штатно отрабатываемся без изменений"
-      }
     }
   } else {
     notify { 'resource title4':
