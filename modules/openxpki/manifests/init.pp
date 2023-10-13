@@ -13,7 +13,7 @@ class openxpki (
        Разница в днях ${$date_result}"
   }
 
-  if $date_result_ssl == 27 {
+  if $date_result_ssl == 25 {
     notify { 'resource title2':
       message  => "Работает! ${$date_result_ssl}"
     }
