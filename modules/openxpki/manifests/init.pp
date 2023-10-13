@@ -4,7 +4,7 @@ class openxpki (
 ){
 
   notify { 'resource title':
-    message  => "Работает #{$facts['ssl_pki']}"
+    message  => "Работает ${$facts['ssl_pki']}"
   }
 
   # openxpki { 'test':
