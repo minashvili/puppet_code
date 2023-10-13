@@ -4,7 +4,7 @@ class openxpki (
 ){
 
   $date_from_puppet_server = Timestamp.new()
-  $date_from_puppet_agent = openxpki::date_changer('тестовые буковки')
+  $date_from_puppet_agent = openxpki::date_changer($facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1])
 
 
   notify { 'resource title1':

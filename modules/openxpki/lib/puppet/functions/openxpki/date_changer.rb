@@ -1,19 +1,14 @@
 
-#
-# function custom::string_to_time($date_str) {
-#   $date_obj = Timestamp.new($date_str)
-#   return $date_obj
-# }
-
 Puppet::Functions.create_function(:'openxpki::date_changer') do
-  dispatch :up do
-    param 'String', :some_string
+  dispatch :change_date do
+    param 'String', :date_str
   end
 
-  def up(some_string)
-    some_string.upcase
+  def change_date(date_str)
+    # Преобразуем строку в объект времени
+    date_obj = Time.new(date_str)
+    # Можете выполнить дополнительные операции с date_obj здесь
+    return date_obj
   end
 end
-
-
 
