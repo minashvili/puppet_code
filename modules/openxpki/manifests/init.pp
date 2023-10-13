@@ -9,10 +9,14 @@ class openxpki (
   Optional[String] $manual_alt_names                    = $openxpki::params::alt_names,
 ) inherits openxpki::params {
 
-  notify { 'debbug':
-    message  =>
-      "Commone name ${$manual_commone_name}, Alt names ${$manual_alt_names}"
+
+  if $facts['ssl_pki'][$manual_commone_name] {
+    notify { 'debbug':
+      message  =>
+        "Commone name ${$manual_commone_name}, Alt names ${$manual_alt_names}"
+    }
   }
+
 
   if $force_get_ssl == true or $date_result_ssl < 20 {
     notify { 'resource title2':
