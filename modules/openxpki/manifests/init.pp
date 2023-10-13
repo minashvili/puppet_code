@@ -9,7 +9,7 @@ class openxpki (
 
   if $facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1] == '2023-11-10T11:10:52Z' {
 
-    notify { 'resource title':
+    notify { 'resource title2':
       message  => "Работает ${$facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1]}"
     }
 
