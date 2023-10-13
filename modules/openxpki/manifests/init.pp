@@ -4,6 +4,7 @@ class openxpki (
   Timestamp  $date_from_puppet_server                   = $openxpki::params::date_server,
   Timestamp  $date_from_puppet_agent                    = $openxpki::params::date_agent,
   Integer    $date_result_ssl                           = $openxpki::params::date_result,
+  Optional[Boolean] $force_get_ssl                      = $openxpki::params::force_param,
 ) inherits openxpki::params {
 
   notify { 'debbug':
@@ -13,7 +14,7 @@ class openxpki (
        Разница в днях ${$date_result}"
   }
 
-  if $date_result_ssl == 25 {
+  if $date_result_ssl < 20 || $force_param == true {
     notify { 'resource title2':
       message  => "Работает! ${$date_result_ssl}"
     }
