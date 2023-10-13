@@ -9,7 +9,6 @@ class openxpki (
   #  Integer    $date_result_ssl                           = $openxpki::params::date_result,
 ) inherits openxpki::params {
 
-
   if $facts['ssl_pki'][$manual_commone_name] {
     $date_agent               = Timestamp.new($facts['ssl_pki'][$manual_commone_name]['ssl_date'][1])
     $date_result_ssl          = Integer(($date_agent - $date_server).strftime('%D'))
