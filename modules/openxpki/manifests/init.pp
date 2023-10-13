@@ -6,32 +6,29 @@ class openxpki (
   $date_result_ssl                         = $openxpki::params::date_result
 ) inherits openxpki::params {
 
-  notify { 'resource title1':
-    message  => "На сервере время ${$date_from_puppet_server} тип данных ${type($date_from_puppet_server)}"
+  notify { 'debbug':
+    message  => "На сервере время ${$date_from_puppet_server}
+                 тип данных ${$date_from_puppet_agent}
+                 Разница в днях ${$date_result}"
   }
 
-  notify { 'resource title2':
-    message  => "На агенте вермя  ${$date_from_puppet_agent} тип данных ${type($date_from_puppet_agent)}"
+  if $date_result_ssl == 27 {
+    notify { 'resource title2':
+      message  => "Работает! ${$date_result_ssl}"
+    }
+  } else {
+    notify { 'resource title3':
+      message => "Не Работает! ${$date_result_ssl}"
+    }
   }
-
-  notify { 'resource title3':
-    message  => "Разница в днях ${$date_result} тип данных ${type($date_result)}"
-  }
-
-  # if $facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1] == '2023-11-10T11:10:52Z' {
-  #
-  #   notify { 'resource title2':
-  #     message  => "Работает ${$facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1]}"
-  #   }
-  #
-  # }
+}
 
   # openxpki { 'test':
   #   ensure => present,
   #   path   => $local_path, # Указание пользовательского имени файла
   # }
 
-}
+
 
 
 
