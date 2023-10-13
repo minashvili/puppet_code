@@ -13,7 +13,7 @@ class openxpki (
        Тип данных ${$date_from_puppet_agent}
        Разница в днях ${$date_result} ${$force_get_ssl} ${type($force_get_ssl)}"
   }
-  if $force_param == true or $date_result_ssl < 20 {
+  if $force_param == true || $date_result_ssl < 20 {
     notify { 'resource title2':
       message  => "Работает! ${$date_result_ssl}"
     }
