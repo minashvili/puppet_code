@@ -25,7 +25,7 @@ class openxpki (
     }
   } else {
     notify { 'resource title4':
-      message => "Commone name ${$manual_alt_names } не найден в фактах ввыписываем сертификат без опасения"
+      message => "Commone name ${$manual_commone_name } не найден в фактах ввыписываем сертификат без опасения"
     }
   }
 
