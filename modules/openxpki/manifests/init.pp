@@ -5,7 +5,7 @@ class openxpki (
 
   $date_from_puppet_server = Timestamp.new()
   $date_from_puppet_agent = openxpki::date_changer($facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1])
-
+  $date_from_puppet_agent2 = Timestamp.new($facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1])
 
   notify { 'resource title1':
     message  => "На сервере время ${$date_from_puppet_server} тип данных ${type($date_from_puppet_server)}"
@@ -15,7 +15,7 @@ class openxpki (
     message  => "На агенте вермя  ${$date_from_puppet_agent} тип данных ${type($date_from_puppet_agent)}"
   }
 
-  $date_result = Timestamp.new($date_from_puppet_agent) - $date_from_puppet_server
+  $date_result = $date_from_puppet_agent2 - $date_from_puppet_server
 
   notify { 'resource title3':
     message  => "Разница в днях ${$date_result} тип данных ${type($date_result)}"
