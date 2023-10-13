@@ -9,11 +9,11 @@ class openxpki (
       message  => "Работает ${['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1]}"
     }
 
-  } else {
-    notify { 'resource title2':
-      message  => "Не работает ${['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1]}"
-    }
-  }
+  } #else {
+  #   notify { 'resource title2':
+  #     message  => "Не работает ${['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1]}"
+  #   }
+  # }
 
   # openxpki { 'test':
   #   ensure => present,
