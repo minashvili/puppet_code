@@ -1,8 +1,8 @@
 
 class openxpki (
   String    $local_path                               = '/opt/my_custom_filename.rb',
-  Timespan  $date_from_puppet_server                  = $openxpki::params::date_server,
-  Timespan  $date_from_puppet_agent                   = $openxpki::params::date_agent,
+  Timestamp  $date_from_puppet_server                  = $openxpki::params::date_server,
+  Timestamp  $date_from_puppet_agent                   = $openxpki::params::date_agent,
   Integer   $date_result_ssl                          = $openxpki::params::date_result,
 ) inherits openxpki::params {
 
