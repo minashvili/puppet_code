@@ -6,6 +6,7 @@ class openxpki (
   $date_from_puppet_server = Timestamp.new()
   $date_from_puppet_agent = openxpki::date_changer($facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1])
 
+  $date_result = $date_from_puppet_agent - $date_from_puppet_server
 
   notify { 'resource title1':
     message  => "У этой строки тип ${$date_from_puppet_server} ${type($date_from_puppet_server)}"
@@ -15,6 +16,9 @@ class openxpki (
     message  => "У этой строки тип ${$date_from_puppet_agent} ${type($date_from_puppet_agent)}"
   }
 
+  notify { 'resource title3':
+    message  => "У этой строки тип ${$date_result} ${type($date_result)}"
+  }
   # if $facts['ssl_pki']['test2.corp.magneto.com']['ssl_date'][1] == '2023-11-10T11:10:52Z' {
   #
   #   notify { 'resource title2':
