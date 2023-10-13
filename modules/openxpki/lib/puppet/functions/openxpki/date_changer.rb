@@ -6,8 +6,8 @@ Puppet::Functions.create_function(:'openxpki::date_changer') do
 
   def change_date(date_str)
     # Преобразуем строку в объект времени
-    date_obj = Time.new(date_str)
-    # Можете выполнить дополнительные операции с date_obj здесь
+    date_obj = Time.parse(date_str)
+    # Можно выполнить дополнительные операции с date_obj
     return date_obj
   end
 end
