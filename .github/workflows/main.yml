@@ -32,7 +32,7 @@ jobs:
           
 
   notify:
-    runs-on: super-runner
+    runs-on: self-hosted
     if: always()
     needs: build
 
