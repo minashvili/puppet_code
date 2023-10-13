@@ -14,7 +14,7 @@ class openxpki (
   notify { 'resource title2':
     message  => "На агенте вермя  ${$date_from_puppet_agent} тип данных ${type($date_from_puppet_agent)}"
   }
-  #Первожу тип данных "Длительность даты"(не путать с дата) в тип данных "строка" а потом в тип данных "Число" да это так делается!!
+  #Первожу тип данных "Длительность даты"(не путать с дата) в тип данных "строка" а потом в тип данных "Число" да это так делается!!!
   $date_result = Integer(($date_from_puppet_agent - $date_from_puppet_server).strftime('%D'))
 
   notify { 'resource title3':
