@@ -31,3 +31,25 @@ jobs:
           sudo /opt/puppetlabs/puppet/bin/r10k deploy environment -p  
           
 
+  notify:
+    runs-on: ubuntu-latest
+    if: always()
+    needs: build
+
+    steps:
+      - name: Send Telegram Message Ok
+        uses: appleboy/telegram-action@master
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        with:
+          to: ${{ secrets.TELEGRAM_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: html
+          message: |
+            <b>Puppet wait</b>
+            <b>Build is finished</b>
+            Repository: ${{ github.repository }}
+            Commit: <a href="${{ github.event.head_commit.url }}">${{ github.event.head_commit.message }}</a>
+            Author: ${{ github.actor }}
+            Status: ${{ needs.build.result }}
+            <a href="https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}">Run details</a>
