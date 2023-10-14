@@ -6,11 +6,11 @@ Facter.add('ssl_pki') do
     # Путь к папке с сертификатами
     certs_path = '/etc/pki'
 
-    # Массив для хранения информации о сертификатах
+    # Хэш для хранения информации о сертификатах
     ssl_pki = {}
 
-    # Получаем список файлов в папке
-    Dir.glob("#{certs_path}/*").each do |file_path|
+    # Получаем список файлов в папке и ожидаем найти только файлы с расширением crt, cer, pem, pfx
+    Dir.glob("#{certs_path}/*.{crt,cer,pem,pfx}").each do |file_path|
       # Игнорируем файлы, не являющиеся сертификатами (например, .crl)
       next unless File.file?(file_path)
 
