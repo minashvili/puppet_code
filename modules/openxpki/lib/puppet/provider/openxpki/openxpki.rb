@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'puppet/resource_api/simple_provider'
+require 'openssl'
 
 # Implementation for the openxpki type using the Resource API.
 class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
@@ -15,7 +16,8 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
   end
 
   def create(context, name, should)
-    # context.notice("Creating '#{name}' with #{should.inspect}")
+    #Переменная should представляет набор желаемых состояний ресурса, которые мы хотитм создать или обновить.
+    #Переменная context представляет собой объект, предоставляемый Puppet Resource API, который используется для взаимодействия с окружением провайдера.
     path = should[:path]
     # Проверяем, что путь указан
     if path.nil?
@@ -50,6 +52,19 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
 
 
 end
+
+
+# В этом коде should используется для определения параметров ресурса,
+# который создается или обновляется, а context используется для ведения журнала
+# и для взаимодействия с Puppet Resource API. Например, методы context.notice
+# и context.err используются для записи сообщений в журнал, чтобы информировать
+# пользователя о действиях провайдера и об ошибках, если они возникнут.
+
+
+
+
+
+
 
 
 
