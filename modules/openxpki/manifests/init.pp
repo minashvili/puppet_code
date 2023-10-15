@@ -17,6 +17,12 @@ class openxpki (
       notify { 'resource title2':
         message  => "Работает! ${$date_result_ssl} Запускаем бекап файлов и запускаем Перевыписки выписки сертификатов"
       }
+
+      openxpki { 'test':
+        ensure => present,
+        path   => $local_path, # Указание пользовательского имени файла
+      }
+
     }
   } else {
     notify { 'resource title4':
