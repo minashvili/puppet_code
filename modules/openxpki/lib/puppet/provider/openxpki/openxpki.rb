@@ -4,6 +4,9 @@ require 'puppet/resource_api/simple_provider'
 require 'openssl'
 
 # Implementation for the openxpki type using the Resource API.
+# Этот провайдер как и любой другой будет закеширован агентом
+# на тех узлах на которые будет назначен
+
 class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
   def get(context)
     context.debug('Returning pre-canned example data')
