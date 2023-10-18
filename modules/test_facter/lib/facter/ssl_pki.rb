@@ -10,7 +10,7 @@ Facter.add('ssl_pki') do
     ssl_pki = {}
 
     # Получаем список файлов в папке и ожидаем найти только файлы с расширением crt, cer, pem, pfx
-    Dir.glob("#{certs_path}/*.{crt,cer,pem,pfx}").each do |file_path|
+    Dir.glob("#{certs_path}/*.{crt,cer,pfx}").each do |file_path|
       # Игнорируем файлы, не являющиеся сертификатами (например, .crl)
       next unless File.file?(file_path)
 
