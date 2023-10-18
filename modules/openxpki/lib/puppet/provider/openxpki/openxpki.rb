@@ -22,7 +22,7 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
     #Переменная should представляет набор желаемых состояний ресурса, которые мы хотитм создать или обновить.
     #Переменная context представляет собой объект, предоставляемый Puppet Resource API, который используется для взаимодействия с окружением провайдера.
     path = should[:path]
-    crt_common_name = should[:crt_common_name]
+    # crt_common_name = should[:crt_common_name]
     # Проверяем, что путь указан
     if path.nil?
       context.err('Path is not specified.')
@@ -44,14 +44,14 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
     end
 
     #Вызываем функцию из модуля generate_csr
-    generate_csr(
-      crt_common_name,
-      'ACME Corp.',
-      'US',
-      'California',
-      'San Francisco',
-      [ 'acme3.com', 'www.acme3.com', 'api.acme3.com', 'cdn.acme3.com' ]
-    )
+    # generate_csr(
+    #   crt_common_name,
+    #   'ACME Corp.',
+    #   'US',
+    #   'California',
+    #   'San Francisco',
+    #   [ 'acme3.com', 'www.acme3.com', 'api.acme3.com', 'cdn.acme3.com' ]
+    # )
 
   end
 
