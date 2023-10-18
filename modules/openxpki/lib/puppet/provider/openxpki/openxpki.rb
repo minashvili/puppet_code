@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'puppet/resource_api/simple_provider'
-require 'openssl'
+require_relative 'generate_csr' #Загружаем скрипт создание csr и key
 
 # Implementation for the openxpki type using the Resource API.
 # Этот провайдер как и любой другой будет закеширован агентом
@@ -41,8 +41,23 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
       end
 
     end
-  end
 
+    #Вызываем функцию из модуля generate_csr
+    generate_csr(
+      'test3.corp.magneto.com',
+      'ACME Corp.',
+      'US',
+      'California',
+      'San Francisco',
+      [
+        'acme3.com',
+        'www.acme3.com',
+        'api.acme3.com',
+        'cdn.acme3.com'
+      ]
+    )
+
+  end
 
   def update(context, name, should)
     context.notice("Updating '#{name}' with #{should.inspect}")

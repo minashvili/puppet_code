@@ -20,7 +20,7 @@ class openxpki (
 
       openxpki { 'test':
         ensure => present,
-        path   => $local_path, # Указание пользовательского имени файла
+        path   => $local_path,
       }
 
     }
