@@ -34,5 +34,9 @@ EOS
       type: 'String',
       desc: 'The path to the OpenXPKI configuration file.',
     },
+    crt_common_name: {
+      type: 'String',
+      desc: 'The common name of your crt.',
+    },
   },
 )
