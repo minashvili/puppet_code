@@ -14,7 +14,6 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
       {
         name: 'openxpki',
         ensure: 'present',
-        crt_common_name: 'common_name',
       },
     ]
   end
