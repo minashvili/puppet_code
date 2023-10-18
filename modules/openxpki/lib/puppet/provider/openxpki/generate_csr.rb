@@ -40,7 +40,7 @@ def generate_csr(common_name, organization, country, state_name, locality, domai
   csr.sign signing_key, OpenSSL::Digest::SHA256.new
 
   # write signing key to the file
-  open "/etc/pki/#{common_name}.pem", 'w' do |io|
+  open "/etc/pki/#{common_name}.key", 'w' do |io|
     io.write signing_key.to_pem # поменял использование функции pem что файлик был просто текстом
   end
 
