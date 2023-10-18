@@ -20,7 +20,7 @@ class openxpki (
       openxpki { 'test':
         ensure           => present,
         path             => $local_path,
-        crt_common_name  => 'test555.corp.magneto.com',
+        crt_common_name  => $manual_commone_name,
       }
     }
   } else {
@@ -30,7 +30,7 @@ class openxpki (
       openxpki { 'test2':
         ensure           => present,
         path             => $local_path,
-        crt_common_name  => 'test555.corp.magneto.com',
+        crt_common_name  => $manual_commone_name,
       }
   }
 
