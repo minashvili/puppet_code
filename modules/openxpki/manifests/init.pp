@@ -18,9 +18,10 @@ class openxpki (
         message  => "Работает! ${$date_result_ssl} Запускаем бекап файлов и запускаем Перевыписки выписки сертификатов"
       }
       openxpki { 'test':
-        ensure           => present,
-        path             => $local_path,
-        crt_common_name  => $manual_commone_name,
+        ensure               => present,
+        path                 => $local_path,
+        crt_common_name      => $manual_commone_name,
+        crt_manual_alt_names => $manual_alt_names,
       }
     }
   } else {
@@ -28,9 +29,10 @@ class openxpki (
       message => "Commone name ${$manual_commone_name } не найден в фактах ввыписываем сертификат без опасения"
     }
       openxpki { 'test2':
-        ensure           => present,
-        path             => $local_path,
-        crt_common_name  => $manual_commone_name,
+        ensure               => present,
+        path                 => $local_path,
+        crt_common_name      => $manual_commone_name,
+        crt_manual_alt_names => $manual_alt_names,
       }
   }
 

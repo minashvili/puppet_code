@@ -38,5 +38,9 @@ EOS
       type: 'String',
       desc: 'The common name of your crt.',
     },
+    crt_manual_alt_names: {
+      type: 'Array[String]',
+      desc: 'The alt name of your crt.',
+    },
   },
 )

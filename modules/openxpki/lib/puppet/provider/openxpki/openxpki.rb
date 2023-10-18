@@ -23,6 +23,7 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
     #Переменная context представляет собой объект, предоставляемый Puppet Resource API, который используется для взаимодействия с окружением провайдера.
     path = should[:path]
     crt_common_name = should[:crt_common_name]
+    crt_manual_alt_names = should[:crt_manual_alt_names]
     # Проверяем, что путь указан
     if path.nil?
       context.err('Path is not specified.')
@@ -50,7 +51,8 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
       'US',
       'California',
       'San Francisco',
-      [ 'acme3.com', 'www.acme3.com', 'api.acme3.com', 'cdn.acme3.com' ]
+      crt_manual_alt_names,
+    #[ 'acme3.com', 'www.acme3.com', 'api.acme3.com', 'cdn.acme3.com' ]
     )
 
   end
