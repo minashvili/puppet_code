@@ -44,6 +44,9 @@ class Puppet::Provider::Openxpki::Openxpki < Puppet::ResourceApi::SimpleProvider
 
     end
 
+    # Проверять есть ли файл /etc/pki/crt_common_name.csr если нет выполнить генерацию
+    # следующий шаг всегда отправка запроса в openxpki если сертифкиат получен csr переменовать crt_common_name.csr + дата
+
     #Вызываем функцию из модуля generate_csr
     generate_csr(
       crt_common_name,
