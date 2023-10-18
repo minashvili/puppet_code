@@ -3,7 +3,7 @@ class openxpki (
   String     $local_path                                = '/opt/my_custom_filename.rb',
   Timestamp  $date_from_puppet_server                   = $openxpki::params::date_server,
   Optional[Boolean] $force_get_ssl                      = $openxpki::params::force_param,
-  String $manual_commone_name                           = $openxpki::params::commone_name,
+  Optional[String] $manual_commone_name                 = $openxpki::params::commone_name,
   Optional[String] $manual_alt_names                    = $openxpki::params::alt_names,
   #  Timestamp  $date_from_puppet_agent                    = $openxpki::params::date_agent,
   #  Integer    $date_result_ssl                           = $openxpki::params::date_result,
