@@ -48,6 +48,9 @@ def generate_csr(common_name, organization, country, state_name, locality, domai
   open "/etc/pki/#{common_name}.csr", 'w' do |io|
     io.write csr.to_pem
   end
+
+  # return [common_name, "/etc/pki/#{common_name}.csr"]
+
 end
 
 
