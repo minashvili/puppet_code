@@ -32,26 +32,24 @@
 # @api private
 #
 class firewall::linux::redhat (
-  $ensure           = running,
-  $ensure_v6        = undef,
-  $enable           = true,
-  $enable_v6        = undef,
-  $service_name     = $firewall::params::service_name,
-  $service_name_v6  = $firewall::params::service_name_v6,
-  $package_name     = $firewall::params::package_name,
-  $package_ensure   = $firewall::params::package_ensure,
-  $sysconfig_manage = $firewall::params::sysconfig_manage,
-  $firewalld_manage = true,
-) inherits ::firewall::params {
+  Enum[running, stopped, 'running', 'stopped']           $ensure           = running,
+  Optional[Enum[running, stopped, 'running', 'stopped']] $ensure_v6        = undef,
+  Variant[Boolean, String[1]]                            $enable           = true,
+  Optional[Variant[Boolean, String[1]]]                  $enable_v6        = undef,
+  Variant[String[1], Array[String[1]]]                   $service_name     = $firewall::params::service_name,
+  Optional[String[1]]                                    $service_name_v6  = $firewall::params::service_name_v6,
+  Optional[Variant[String[1], Array[String[1]]]]         $package_name     = $firewall::params::package_name,
+  Enum[present, latest, 'present', 'latest']             $package_ensure   = $firewall::params::package_ensure,
+  Boolean                                                $sysconfig_manage = $firewall::params::sysconfig_manage,
+  Boolean                                                $firewalld_manage = $firewall::params::firewalld_manage,
+) inherits firewall::params {
   $_ensure_v6 = pick($ensure_v6, $ensure)
   $_enable_v6 = pick($enable_v6, $enable)
 
   # RHEL 7 / CentOS 7 and later and Fedora 15 and later require the iptables-services
   # package, which provides the /usr/libexec/iptables/iptables.init used by
   # lib/puppet/util/firewall.rb.
-  if ($::operatingsystem != 'Amazon')
-  and (($::operatingsystem != 'Fedora' and versioncmp($::operatingsystemrelease, '7.0') >= 0)
-  or  ($::operatingsystem == 'Fedora' and versioncmp($::operatingsystemrelease, '15') >= 0)) {
+  if ($facts['os']['name'] != 'Amazon') {
     if $firewalld_manage {
       service { 'firewalld':
         ensure => stopped,
@@ -68,17 +66,18 @@ class firewall::linux::redhat (
   }
 
   if $package_name {
-    ensure_packages($package_name, {
+    stdlib::ensure_packages($package_name, {
         'ensure' => $package_ensure,
       'before' => Service[$service_name] }
     )
   }
 
-  if ($::operatingsystem != 'Amazon')
-  and (($::operatingsystem != 'Fedora' and versioncmp($::operatingsystemrelease, '7.0') >= 0)
-  or  ($::operatingsystem == 'Fedora' and versioncmp($::operatingsystemrelease, '15') >= 0)) {
+  if ($facts['os']['name'] != 'Amazon') {
     if $ensure == 'running' {
+      $running_command = ['/usr/bin/systemctl', 'daemon-reload']
+
       exec { '/usr/bin/systemctl daemon-reload':
+        command     => $running_command,
         require     => Package[$package_name],
         before      => Service[$service_name, $service_name_v6],
         subscribe   => Package[$package_name],
@@ -87,8 +86,8 @@ class firewall::linux::redhat (
     }
   }
 
-  if ($::operatingsystem == 'Amazon') and (versioncmp($::operatingsystemmajrelease, '4') >= 0)
-  or ($::operatingsystem == 'Amazon') and (versioncmp($::operatingsystemmajrelease, '2') >= 0) {
+  if ($facts['os']['name'] == 'Amazon') and (versioncmp($facts['os']['release']['major'], '4') >= 0)
+  or ($facts['os']['name'] == 'Amazon') and (versioncmp($facts['os']['release']['major'], '2') >= 0) {
     service { $service_name:
       ensure    => $ensure,
       enable    => $enable,
@@ -134,26 +133,29 @@ class firewall::linux::redhat (
       }
     }
 
-    # Before puppet 4, the autobefore on the firewall type does not work - therefore
-    # we need to keep this workaround here
-    if versioncmp($::puppetversion, '4.0') <= 0 {
-      File<| title == "/etc/sysconfig/${service_name}" |> -> Service<| title == $service_name |>
-      File<| title == "/etc/sysconfig/${service_name_v6}" |> -> Service<| title == $service_name_v6 |>
-    }
-
     # Redhat 7 selinux user context for /etc/sysconfig/iptables is set to system_u
     # Redhat 7 selinux type context for /etc/sysconfig/iptables is set to system_conf_t
-    case $::selinux {
+    case $facts['os']['selinux']['enabled'] {
       #lint:ignore:quoted_booleans
       'true',true: {
-        case $::operatingsystem {
-          'CentOS': {
-            case $::operatingsystemrelease {
-              /^5\..*/: {
-                $seluser = 'system_u'
-                $seltype = 'etc_t'
+        case $facts['os']['name'] {
+          'RedHat': {
+            case $facts['os']['release']['full'] {
+              /^7\..*/: {
+                $seluser = 'unconfined_u'
+                $seltype = 'system_conf_t'
               }
+              default : {
+                $seluser = 'system_u'
+                $seltype = 'system_conf_t'
+              }
+            }
 
+            File<| title == "/etc/sysconfig/${service_name}" |> { seluser => $seluser, seltype => $seltype }
+            File<| title == "/etc/sysconfig/${service_name_v6}" |> { seluser => $seluser, seltype => $seltype }
+          }
+          'CentOS': {
+            case $facts['os']['release']['full'] {
               /^6\..*/: {
                 $seluser = 'unconfined_u'
                 $seltype = 'system_conf_t'
@@ -162,6 +164,16 @@ class firewall::linux::redhat (
               /^7\..*/: {
                 $seluser = 'system_u'
                 $seltype = 'system_conf_t'
+              }
+
+              /^8\..*/: {
+                $seluser = 'system_u'
+                $seltype = 'etc_t'
+              }
+
+              /^9\..*/: {
+                $seluser = 'system_u'
+                $seltype = 'etc_t'
               }
 
               default : {

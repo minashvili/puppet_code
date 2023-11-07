@@ -77,24 +77,24 @@ class my_fw::pre {
 
   # Default firewall rules
   firewall { '000 accept all icmp':
-    proto  => 'icmp',
-    action => 'accept',
+    proto => 'icmp',
+    jump  => 'accept',
   }
   -> firewall { '001 accept all to lo interface':
     proto   => 'all',
     iniface => 'lo',
-    action  => 'accept',
+    jump    => 'accept',
   }
   -> firewall { '002 reject local traffic not on loopback interface':
     iniface     => '! lo',
     proto       => 'all',
     destination => '127.0.0.1/8',
-    action      => 'reject',
+    jump        => 'reject',
   }
   -> firewall { '003 accept related established rules':
     proto  => 'all',
     state  => ['RELATED', 'ESTABLISHED'],
-    action => 'accept',
+    jump   => 'accept',
   }
 }
 ```
@@ -108,7 +108,7 @@ existing connections are not closed.
 class my_fw::post {
   firewall { '999 drop all':
     proto  => 'all',
-    action => 'drop',
+    jump   => 'drop',
     before => undef,
   }
 }
@@ -170,15 +170,7 @@ resources { 'firewallchain':
 Internal chains can not be deleted. In order to avoid all the confusing
 Warning/Notice messages when using `purge => true`, like these ones:
 
-    Notice: Compiled catalog for blonde-height.delivery.puppetlabs.net in environment production in 0.05 seconds
-    Warning: Firewallchain[INPUT:mangle:IPv4](provider=iptables_chain): Attempting to destroy internal chain INPUT:mangle:IPv4
-    Notice: /Stage[main]/Main/Firewallchain[INPUT:mangle:IPv4]/ensure: removed
-    Warning: Firewallchain[FORWARD:mangle:IPv4](provider=iptables_chain): Attempting to destroy internal chain FORWARD:mangle:IPv4
-    Notice: /Stage[main]/Main/Firewallchain[FORWARD:mangle:IPv4]/ensure: removed
-    Warning: Firewallchain[OUTPUT:mangle:IPv4](provider=iptables_chain): Attempting to destroy internal chain OUTPUT:mangle:IPv4
-    Notice: /Stage[main]/Main/Firewallchain[OUTPUT:mangle:IPv4]/ensure: removed
-    Warning: Firewallchain[POSTROUTING:mangle:IPv4](provider=iptables_chain): Attempting to destroy internal chain POSTROUTING:mangle:IPv4
-    Notice: /Stage[main]/Main/Firewallchain[POSTROUTING:mangle:IPv4]/ensure: removed
+  Warning: Inbuilt Chains may not be deleted. Chain `POSTROUTING:mangle:IPv6` will be flushed and have it's policy reverted to default.
 
   Please create firewallchains for every internal chain. Here is an example:
 
@@ -192,9 +184,9 @@ resources { 'firewallchain':
 }
 ```
 
-> **Note:** If there are unmanaged rules in unmanaged chains, it will take a second Puppet run for the firewall chain to be purged.
-
 > **Note:** If you need more fine-grained control about which unmananged rules get removed, investigate the `purge` and `ignore_foreign` parameters available in `firewallchain`.
+
+> **Note:** `ignore_foreign` of `firewallchain` does not work as expected with a resources purge of `firewall`.
 
 ### Upgrading
 
@@ -226,8 +218,8 @@ Basic accept ICMP request example:
 
 ```puppet
 firewall { '000 accept all icmp requests':
-  proto  => 'icmp',
-  action => 'accept',
+  proto => 'icmp',
+  jump  => 'accept',
 }
 ```
 
@@ -235,7 +227,7 @@ Drop all:
 
 ```puppet
 firewall { '999 drop all other requests':
-  action => 'drop',
+  jump => 'drop',
 }
 ```
 
@@ -247,8 +239,8 @@ IPv6 rules can be specified using the _ip6tables_ provider:
 firewall { '006 Allow inbound SSH (v6)':
   dport    => 22,
   proto    => 'tcp',
-  action   => 'accept',
-  provider => 'ip6tables',
+  jump     => 'accept',
+  protocol => 'ip6tables',
 }
 ```
 
@@ -273,33 +265,47 @@ class profile::apache {
   firewall { '100 allow http and https access':
     dport  => [80, 443],
     proto  => 'tcp',
-    action => 'accept',
+    jump   => 'accept',
   }
 }
 ```
 
 ### Rule inversion
 
-Firewall rules may be inverted by prefixing the value of a parameter by "! ". If the value is an array, then every item in the array must be prefixed as iptables does not understand inverting a single value.
+Firewall rules may be inverted by prefixing the value of a parameter by "! ".
 
 Parameters that understand inversion are: connmark, ctstate, destination, dport, dst\_range, dst\_type, iniface, outiface, port, proto, source, sport, src\_range and src\_type.
+
+If the value is an array, then either the first value of the array, or all of its values must be prefixed in order to invert them all.
+For most array attributes it is not possible to invert only one passed value.
 
 Examples:
 
 ```puppet
 firewall { '001 disallow esp protocol':
-  action => 'accept',
+  jump   => 'accept',
   proto  => '! esp',
 }
 
 firewall { '002 drop NEW external website packets with FIN/RST/ACK set and SYN unset':
   chain     => 'INPUT',
   state     => 'NEW',
-  action    => 'drop',
+  jump      => 'drop',
   proto     => 'tcp',
-  sport     => ['! http', '! 443'],
+  sport     => ['! http', '443'],
   source    => '! 10.0.0.0/8',
   tcp_flags => '! FIN,SYN,RST,ACK SYN',
+}
+```
+
+There are exceptions to this however, with attributes such as src\_type, dst\_type and ipset allowing the user to negate each passed values seperately.
+
+Examples:
+
+```puppet
+firewall { '001 allow local disallow anycast':
+  jump     => 'accept',
+  src_type => ['LOCAL', '! ANYCAST'],
 }
 ```
 
@@ -371,7 +377,7 @@ firewallchain { 'MY_CHAIN:filter:IPv4':
 
 firewall { '100 my rule':
   chain   => 'MY_CHAIN',
-  action  => 'accept',
+  jump    => 'accept',
   proto   => 'tcp',
   dport   => 5000,
 }
@@ -385,7 +391,7 @@ firewall {'666 for NFLOG':
   jump            => 'NFLOG',
   nflog_group     => 3,
   nflog_prefix    => 'nflog-test',
-  nflog_range     => 256,
+  nflog_size      => 256,
   nflog_threshold => 1,
 }
 ```
@@ -394,16 +400,9 @@ firewall {'666 for NFLOG':
 
 It is possible for an unmanaged rule to exist on the target system that has the same comment as the rule specified in the manifest. This configuration is not supported by the firewall module.
 
-In the event of a duplicate rule, the module will by default display a warning message notifying the user that it has found a duplicate but will continue to update the resource.
+In the event of a duplicate rule, the module will throw an error message notifying the user that it has found a duplicate and halt in it's update.
 
-This behaviour is configurable via the `onduplicaterulebehaviour` parameter. Users can choose from the following behaviours:
-
-* `ignore` - The duplicate rule is ignored and any updates to the resource will continue unaffected.
-* `warn` - The duplicate rule is logged as a warning and any updates to the resource will continue unaffected.
-* `error` - The duplicate rule is logged as an error and any updates to the resource will be skipped.
-
-With either the `ignore` or `warn` (default) behaviour, Puppet may create another duplicate rule.
-To prevent this behavior and report the resource as failing during the Puppet run, specify the `error` behaviour.
+This behaviour was previously configurable via the `onduplicaterulebehaviour` parameter. However the implementation of this resulted in a massive slowdown of the module and so this has been removed in favour of a simple error being thrown whenever a duplicate is detected.
 
 ### Additional information
 
@@ -472,7 +471,7 @@ firewall_multi { '100 allow http and https access':
   ],
   dport  => [80, 443],
   proto  => 'tcp',
-  action => 'accept',
+  jump   => 'accept',
 }
 ```
 
@@ -550,4 +549,60 @@ And run the tests from the root of the source code:
 bundle exec rake parallel_spec
 ```
 
-See also `.travis.yml` for information on running the acceptance and other tests.
+See the Github Action runs for information on running the acceptance and other tests.
+
+### Migration path to v7.0.0
+
+As of `v7.0.0` of this module a major rework has been done to adopt the [puppet-resource_api](https://github.com/puppetlabs/puppet-resource_api) into the module and use it style of code in place of the original form of Puppet Type and Providers. This was done in the most part to increase the ease with with the module could be maintained and updated in the future, the changes helping to structure the module in such a way as to be more easily understood and altered going forward.
+
+As part of this process several breaking changes where made to the code that will need to be accounted for whenever you update to this new version of the module, with these changes including:
+
+* The `provider` attibute within the `firewall` type has been renamed to `protocol`, both to bring it in line with the matching attribute within the `firewallchain` type and due to the resource_api forbidding the use of `provider` as a attribute name. As part of this the attribute has also been updated to accept `IPv4` and `IPv6` in place of `iptables` or `ip6tables`, though they are still valid as input.
+* The `action` attribute within the `firewall` type has been removed as it was merely a restricted version of the `jump` attribute, both of them managing the same function, this being reasoned as a way to enforce the use of generic parameters. From this point the parameters formerly unique to `action` should now be passed to `jump`.
+* Strict types have now been implemented for all attributes, while this should not require changes on the user end in most cases, there may be some instances where manifests will require updated to match the new expected form of input.
+* Attributes that allow both arrays and negated values have now been updated.
+  * For attributes that require that all passed values be negated as one, you now merely have to negate the first value within the array, rather than all of them, though negating all is still accepted.
+  * For attributes that allow passed values to be negated seperately this is not the case. All attributes in this situation are noted within their description.
+* The `sport` and `dport` attributes have been updated so that they will now accept with `:` or `-` as a separator when passing ranges, with `:` being preferred as it matchs what is passed to iptables.
+
+Two pairs of manifest taken from the tests can be seen below, illustrating the changes that may be required, the first applying a hoplimit on `ip6tables`:
+
+```Puppet
+firewall { '571 - hop_limit':
+  ensure    => present,
+  proto     => 'tcp',
+  dport     => '571',
+  action    => 'ACCEPT',
+  hop_limit => '5',
+  provider  => 'ip6tables',
+}
+```
+
+```Puppet
+firewall { '571 - hop_limit':
+  ensure    => present,
+  proto     => 'tcp',
+  dport     => '571',
+  jump      => 'accept',
+  hop_limit => '5',
+  protocol  => 'IPv6',
+}
+```
+
+And the second negating access to a range of ports on `iptables`:
+
+```puppet
+firewall { '560 - negated ports':
+  proto  => `tcp`,
+  sport  => ['! 560-570','! 580'],
+  action => `accept`,
+}
+```
+
+```puppet
+firewall { '560 - negated ports':
+  proto  => `tcp`,
+  sport  => '! 560:570','580',
+  jump   => `accept`,
+}
+```
